@@ -60,6 +60,16 @@ public class UsersApiController implements UsersApi {
 				.orElseGet(() -> ResponseEntity.notFound().build());
 	}
 
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UserResponse> updateUserRole(Long id, @Valid UpdateUserRoleRequest updateUserRoleRequest) {
+        log.debug("updateUserRole invoked id={}", id);
+        return userService
+                .updateRole(id, updateUserRoleRequest.getRole())
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 	@Override
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Void> deleteUser(Long id) {

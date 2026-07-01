@@ -52,9 +52,6 @@ public class PostEntity {
 
     public void incdrementCount() {viewCount++;}
 
-    public boolean isOwnedBy(Long userId) {
-        return userId != null && createdBy != null && userId.equals(createdBy.getId());
-    }
 
     public void update(String title, String content) {
         this.title = title;

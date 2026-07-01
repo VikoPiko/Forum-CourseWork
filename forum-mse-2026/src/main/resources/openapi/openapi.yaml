@@ -339,6 +339,37 @@ paths:
         "404":
           description: Not found
 
+  /users/{id}/role:
+    patch:
+      tags: [Users]
+      operationId: updateUserRole
+      summary: Update user role req.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRoleRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Founds
+
+
 components:
 
   securitySchemes:
@@ -401,6 +432,13 @@ components:
       type: string
       description: USER denotes a regular (non-privileged) account.
       enum: [ADMIN, MODERATOR, USER]
+
+    UpdateUserRoleRequest:
+      type: object
+      required: [role]
+      properties:
+        role:
+          $ref: '#/components/schemas/UserRole'
 
     CreateUserRequest:
       type: object
