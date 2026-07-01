@@ -1,0 +1,71 @@
+<main class="page">
+  <header class="page__header">
+    <h1 data-cy="app-title">{{ title }}</h1>
+    <p class="page__lede" data-cy="app-description">{{ description }}</p>
+  </header>
+
+  <section class="card" aria-labelledby="status-heading">
+    <h2 id="status-heading">Backend status</h2>
+    <p class="card__hint">
+      Calls <code>/api/actuator/health</code> on the configured backend.
+    </p>
+    <div class="card__row">
+      <button
+        type="button"
+        data-cy="check-status"
+        [disabled]="checking()"
+        (click)="checkStatus()"
+      >
+        {{ checking() ? 'Checking…' : 'Check backend status' }}
+      </button>
+      <span data-cy="status-label" [class]="statusClass()">{{ statusLabel() }}</span>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="posts-heading">
+    <h2 id="posts-heading">Posts demo</h2>
+    <p class="card__hint">
+      Read-only call to <code>/api/posts</code> (public endpoint, no auth).
+    </p>
+    <div class="card__row">
+      <button type="button" data-cy="load-posts" (click)="loadPosts()">
+        Load posts
+      </button>
+    </div>
+
+    @switch (posts().kind) {
+      @case ('loading') {
+        <p data-cy="posts-loading">Loading…</p>
+      }
+      @case ('error') {
+        <p class="status status--err" data-cy="posts-error">
+          {{ $any(posts()).message }}
+        </p>
+      }
+      @case ('ok') {
+        @let loaded = $any(posts()).posts;
+        @if (loaded.length === 0) {
+          <p data-cy="posts-empty">No posts yet.</p>
+        } @else {
+          <ul data-cy="posts-list">
+            @for (post of loaded; track post.id) {
+              <li>
+                <strong>{{ post.title }}</strong>
+                <span>— {{ post.createdAt }}</span>
+              </li>
+            }
+          </ul>
+        }
+      }
+    }
+  </section>
+
+  <footer class="page__footer">
+    <small>
+      Backend repo:
+      <a href="https://github.com/teodossidossev/forum-mse-2026-be" target="_blank" rel="noopener">
+        forum-mse-2026-be
+      </a>
+    </small>
+  </footer>
+</main>

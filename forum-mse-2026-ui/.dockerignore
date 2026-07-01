@@ -1,0 +1,12 @@
+node_modules
+dist
+.angular
+coverage
+cypress/downloads
+cypress/screenshots
+cypress/videos
+out-tsc
+.git
+.idea
+.vscode
+*.log

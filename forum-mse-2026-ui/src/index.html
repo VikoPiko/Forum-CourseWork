@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Forum MSE 2026</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!--
+    Runtime configuration. Loaded BEFORE the Angular bundle so the app can read
+    window.__APP_CONFIG__ at startup. The file lives in /public and is copied
+    verbatim into the build output. In the nginx container an entrypoint script
+    rewrites it from environment variables. See README.md for details.
+  -->
+  <script src="config.js"></script>
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>
