@@ -1,7 +1,7 @@
 CREATE TABLE replies (
     id BIGSERIAL PRIMARY KEY,
     post_id BIGINT NOT NULL REFERENCES posts (id) ON DELETE CASCADE,
-    content VARCHAR(10000) NOT NULL,
+    text VARCHAR(10000) NOT NULL,
     created_at TIMESTAMPTZ NOT NULL
 );
 

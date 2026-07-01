@@ -1,1 +1,20 @@
-<p>topic-meta works!</p>
+@if (topic; as item) {
+  <dl class="meta-chips" aria-label="Topic metadata">
+    <div>
+      <dt>Author</dt>
+      <dd>{{ item.createdByUsername }}</dd>
+    </div>
+    <div>
+      <dt>Created</dt>
+      <dd>{{ item.createdAt | date: 'short' }}</dd>
+    </div>
+    <div>
+      <dt>Updated</dt>
+      <dd>{{ item.updatedAt | date: 'short' }}</dd>
+    </div>
+    <div>
+      <dt>Views</dt>
+      <dd>{{ item.viewCount }}</dd>
+    </div>
+  </dl>
+}

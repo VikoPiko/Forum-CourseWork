@@ -1,1 +1,29 @@
-<p>topic-list works!</p>
+<section class="topics-view">
+  <header class="forum-header forum-header--row">
+    <div>
+      <p class="eyebrow">Forum board</p>
+      <h2>Topics</h2>
+      <p>Scan recent discussions, follow the busiest threads, and jump into replies.</p>
+    </div>
+    @if (auth.isAuthenticated()) {
+      <a class="button" routerLink="/topics/new">New topic</a>
+    }
+  </header>
+
+  @if (loading()) {
+    <div class="state-card">Loading topics...</div>
+  } @else if (error()) {
+    <div class="state-card state-card--error">{{ error() }}</div>
+  } @else if (topics().length === 0) {
+    <div class="state-card">
+      <strong>No topics yet.</strong>
+      <span>Start the first conversation once you are signed in.</span>
+    </div>
+  } @else {
+    <ol class="topic-list" data-cy="topics-list">
+      @for (topic of topics(); track topic.id) {
+        <li><app-topic-card [topic]="topic" /></li>
+      }
+    </ol>
+  }
+</section>

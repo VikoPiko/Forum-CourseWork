@@ -1,1 +1,14 @@
-<p>reply-card works!</p>
+@if (reply; as item) {
+  <article class="reply-card">
+    <div class="reply-card__body">
+      <p>{{ item.text }}</p>
+      <div class="reply-card__meta">
+        <span>{{ item.createdByUsername }}</span>
+        <span>{{ item.createdAt | date: 'short' }}</span>
+      </div>
+    </div>
+    @if (canEdit) {
+      <button type="button" (click)="edit.emit(item)">Edit</button>
+    }
+  </article>
+}

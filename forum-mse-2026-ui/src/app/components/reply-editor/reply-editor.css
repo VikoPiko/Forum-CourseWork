@@ -1,0 +1,49 @@
+.reply-editor {
+  display: grid;
+  gap: 14px;
+}
+.reply-editor h3 {
+  margin: 0;
+  color: #111827;
+}
+.reply-editor p {
+  margin: 7px 0 0;
+  color: #647084;
+}
+.reply-editor label {
+  display: grid;
+  gap: 8px;
+  color: #2b3748;
+  font-weight: 850;
+}
+.reply-editor textarea {
+  width: 100%;
+  border: 1px solid #c7d1dc;
+  border-radius: 8px;
+  background: #fbfcfe;
+  color: #18212f;
+  padding: 11px 12px;
+  font: inherit;
+  line-height: 1.5;
+  outline: none;
+  resize: vertical;
+}
+.reply-editor textarea:focus {
+  border-color: #0e6375;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(14, 99, 117, 0.15);
+}
+.reply-editor--compact {
+  width: 100%;
+}
+.editor-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+@media (max-width: 760px) {
+  .editor-actions button {
+    width: 100%;
+  }
+}

@@ -120,7 +120,13 @@ class PostsApiControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.id").value(id))
 				.andExpect(jsonPath("$.title").value("Single post"))
-				.andExpect(jsonPath("$.content").value("For get by id"));
+				.andExpect(jsonPath("$.content").value("For get by id"))
+				.andExpect(jsonPath("$.viewCount").value(1));
+
+		mockMvc.perform(get("/posts/{id}", id))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.id").value(id))
+				.andExpect(jsonPath("$.viewCount").value(2));
 	}
 
 	@Test

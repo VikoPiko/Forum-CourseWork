@@ -5,12 +5,9 @@ import com.mse.edu.forum.api.generated.model.PostResponse;
 import com.mse.edu.forum.domain.PostEntity;
 import com.mse.edu.forum.mapper.PostMapper;
 import com.mse.edu.forum.repo.PostRepository;
+import com.mse.edu.forum.security.CurrentUserProvider;
 import java.util.List;
 import java.util.Optional;
-
-import com.mse.edu.forum.security.CurrentUserProvider;
-import com.mse.edu.forum.security.ForumPermissionService;
-import org.checkerframework.checker.units.qual.Current;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,16 +17,13 @@ public class PostService {
 	private final PostRepository postRepository;
 	private final PostMapper postMapper;
     private final CurrentUserProvider currentUserProvider;
-    private final ForumPermissionService permissionService;
 
 	public PostService(PostRepository postRepository,
                        PostMapper postMapper,
-                       CurrentUserProvider currentUserProvider,
-                       ForumPermissionService permissionService) {
+                       CurrentUserProvider currentUserProvider) {
 		this.postRepository = postRepository;
 		this.postMapper = postMapper;
         this.currentUserProvider = currentUserProvider;
-        this.permissionService = permissionService;
 	}
 
 	@Transactional(readOnly = true)
@@ -53,6 +47,7 @@ public class PostService {
 	@Transactional
 	public PostResponse create(CreatePostRequest request) {
 		PostEntity postEntity = postMapper.toEntity(request);
+		postEntity.setCreatedBy(currentUserProvider.getCurrentUserEntity());
 		PostEntity saved = postRepository.save(postEntity);
 		return postMapper.toResponse(saved);
 	}

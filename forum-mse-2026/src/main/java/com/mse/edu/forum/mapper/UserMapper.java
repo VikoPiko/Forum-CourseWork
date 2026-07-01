@@ -16,46 +16,46 @@ import org.mapstruct.Named;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-	@Mapping(target = "id", ignore = true)
-	@Mapping(target = "createdAt", ignore = true)
-	@Mapping(target = "passwordHash", ignore = true)
-	@Mapping(target = "username", source = "username", qualifiedByName = "trimmed")
-	@Mapping(target = "email", source = "email", qualifiedByName = "normalizeEmail")
-	@Mapping(target = "role", source = "role")
-	UserEntity toEntity(CreateUserRequest request);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "passwordHash", ignore = true)
+    @Mapping(target = "username", source = "username", qualifiedByName = "trimmed")
+    @Mapping(target = "email", source = "email", qualifiedByName = "normalizeEmail")
+    @Mapping(target = "role", source = "role")
+    UserEntity toEntity(CreateUserRequest request);
 
-	@Mapping(target = "createdAt", source = "createdAt", qualifiedByName = "instantToOffset")
-	@Mapping(target = "role", source = "role")
-	UserResponse toResponse(UserEntity entity);
+    @Mapping(target = "createdAt", source = "createdAt", qualifiedByName = "instantToOffset")
+    @Mapping(target = "role", source = "role")
+    UserResponse toResponse(UserEntity entity);
 
-	@Mapping(target = "id", ignore = true)
-	@Mapping(target = "createdAt", ignore = true)
-	@Mapping(target = "passwordHash", ignore = true)
-	@Mapping(target = "username", source = "username", qualifiedByName = "trimmed")
-	@Mapping(target = "email", source = "email", qualifiedByName = "normalizeEmail")
-	@Mapping(target = "role", source = "role")
-	void applyUpdate(UpdateUserRequest request, @MappingTarget UserEntity entity);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "passwordHash", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "username", source = "username", qualifiedByName = "trimmed")
+    @Mapping(target = "email", source = "email", qualifiedByName = "normalizeEmail")
+    void applyUpdate(UpdateUserRequest request, @MappingTarget UserEntity entity);
 
-	com.mse.edu.forum.domain.UserRole toDomainRole(UserRole role);
+    com.mse.edu.forum.domain.UserRole toDomainRole(UserRole role);
 
-	UserRole toApiRole(com.mse.edu.forum.domain.UserRole role);
+    UserRole toApiRole(com.mse.edu.forum.domain.UserRole role);
 
-	@Named("trimmed")
-	default String trimmed(String value) {
-		return value == null ? null : value.trim();
-	}
+    @Named("trimmed")
+    default String trimmed(String value) {
+        return value == null ? null : value.trim();
+    }
 
-	@Named("normalizeEmail")
-	default String normalizeEmail(String value) {
-		if (value == null) {
-			return null;
-		}
-		String t = value.trim();
-		return t.isEmpty() ? null : t;
-	}
+    @Named("normalizeEmail")
+    default String normalizeEmail(String value) {
+        if (value == null) {
+            return null;
+        }
+        String t = value.trim();
+        return t.isEmpty() ? null : t;
+    }
 
-	@Named("instantToOffset")
-	default OffsetDateTime instantToOffset(Instant instant) {
-		return instant == null ? null : instant.atOffset(ZoneOffset.UTC);
-	}
+    @Named("instantToOffset")
+    default OffsetDateTime instantToOffset(Instant instant) {
+        return instant == null ? null : instant.atOffset(ZoneOffset.UTC);
+    }
 }

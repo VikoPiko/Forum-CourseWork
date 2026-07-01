@@ -3,6 +3,7 @@ package com.mse.edu.forum.api;
 import com.mse.edu.forum.api.generated.UsersApi;
 import com.mse.edu.forum.api.generated.model.CreateUserRequest;
 import com.mse.edu.forum.api.generated.model.UpdateUserRequest;
+import com.mse.edu.forum.api.generated.model.UpdateUserRoleRequest;
 import com.mse.edu.forum.api.generated.model.UserResponse;
 import com.mse.edu.forum.service.UserService;
 import jakarta.validation.Valid;

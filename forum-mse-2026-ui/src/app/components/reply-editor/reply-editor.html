@@ -1,1 +1,18 @@
-<p>reply-editor works!</p>
+<form class="reply-editor" [class.reply-editor--compact]="compact" (ngSubmit)="submit()">
+  @if (!compact) {
+    <div>
+      <h3>{{ title }}</h3>
+      <p>{{ description }}</p>
+    </div>
+  }
+  <label>
+    <span>Reply</span>
+    <textarea name="replyText" [(ngModel)]="text" rows="5" required></textarea>
+  </label>
+  <div class="editor-actions">
+    <button type="submit" [disabled]="busy">{{ busy ? 'Working...' : submitLabel }}</button>
+    @if (compact) {
+      <button type="button" (click)="replyCancel.emit()">Cancel</button>
+    }
+  </div>
+</form>

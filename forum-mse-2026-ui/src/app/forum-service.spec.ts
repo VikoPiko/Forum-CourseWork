@@ -2,11 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-import { AuthService } from './auth';
+import { ForumService } from './forum-service';
 import { RUNTIME_CONFIG } from './runtime-config';
 
-describe('AuthService', () => {
-  let service: AuthService;
+describe('ForumService', () => {
+  let service: ForumService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -16,7 +16,7 @@ describe('AuthService', () => {
         { provide: RUNTIME_CONFIG, useValue: { backendBaseUrl: '' } },
       ],
     });
-    service = TestBed.inject(AuthService);
+    service = TestBed.inject(ForumService);
   });
 
   it('should be created', () => {

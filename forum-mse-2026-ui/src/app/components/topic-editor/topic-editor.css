@@ -1,0 +1,43 @@
+.topic-editor {
+  display: grid;
+  gap: 16px;
+}
+.topic-editor label {
+  display: grid;
+  gap: 8px;
+  color: #2b3748;
+  font-weight: 850;
+}
+.topic-editor input,
+.topic-editor textarea {
+  width: 100%;
+  border: 1px solid #c7d1dc;
+  border-radius: 8px;
+  background: #fbfcfe;
+  color: #18212f;
+  padding: 11px 12px;
+  font: inherit;
+  line-height: 1.5;
+  outline: none;
+}
+.topic-editor input:focus,
+.topic-editor textarea:focus {
+  border-color: #0e6375;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(14, 99, 117, 0.15);
+}
+.topic-editor textarea {
+  resize: vertical;
+}
+.editor-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 2px;
+}
+@media (max-width: 760px) {
+  .editor-actions button {
+    width: 100%;
+  }
+}

@@ -14,12 +14,18 @@ import org.mapstruct.Named;
 public interface PostMapper {
 
 	@Mapping(target = "id", ignore = true)
-	@Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "viewCount", ignore = true)
 	@Mapping(target = "title", source = "title", qualifiedByName = "trimmed")
 	@Mapping(target = "content", source = "content", qualifiedByName = "trimmed")
 	PostEntity toEntity(CreatePostRequest request);
 
 	@Mapping(target = "createdAt", source = "createdAt", qualifiedByName = "instantToOffset")
+    @Mapping(target = "createdByUserId", source = "createdBy.id")
+    @Mapping(target = "createdByUsername", source = "createdBy.username")
+    @Mapping(target = "updatedAt", source = "updatedAt", qualifiedByName = "instantToOffset")
 	PostResponse toResponse(PostEntity entity);
 
 	@Named("trimmed")

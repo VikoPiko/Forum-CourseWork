@@ -34,7 +34,7 @@ public class PostsApiController implements PostsApi {
 	public ResponseEntity<PostResponse> getPostById(Long id) {
 		log.debug("getPostById invoked id={}", id);
 		return postService
-				.findById(id)
+				.findByIdAndIncrementViews(id)
 				.map(ResponseEntity::ok)
 				.orElseGet(() -> ResponseEntity.notFound().build());
 	}

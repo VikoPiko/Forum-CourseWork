@@ -2,6 +2,7 @@ package com.mse.edu.forum.service;
 
 import com.mse.edu.forum.api.generated.model.CreateUserRequest;
 import com.mse.edu.forum.api.generated.model.UpdateUserRequest;
+import com.mse.edu.forum.api.generated.model.UserRole;
 import com.mse.edu.forum.api.generated.model.UserResponse;
 import com.mse.edu.forum.domain.UserEntity;
 import com.mse.edu.forum.mapper.UserMapper;
@@ -90,6 +91,15 @@ public class UserService {
 		}
 		userRepository.deleteById(id);
 		return true;
+	}
+
+	@Transactional
+	public Optional<UserResponse> updateRole(Long id, UserRole role) {
+		return userRepository.findById(id).map(entity -> {
+			entity.setRole(userMapper.toDomainRole(role));
+			UserEntity saved = userRepository.save(entity);
+			return userMapper.toResponse(saved);
+		});
 	}
 
 	private static boolean isAdmin() {

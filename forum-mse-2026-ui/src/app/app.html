@@ -1,71 +1,26 @@
-<main class="page">
-  <header class="page__header">
-    <h1 data-cy="app-title">{{ title }}</h1>
-    <p class="page__lede" data-cy="app-description">{{ description }}</p>
+<main class="app-shell">
+  <header class="topbar">
+    <div>
+      <h1 data-cy="app-title">{{ title }}</h1>
+      <p data-cy="app-description">{{ description }}</p>
+    </div>
+    <nav aria-label="Primary navigation">
+      <a routerLink="/topics" routerLinkActive="active">Topics</a>
+      @if (auth.isAuthenticated()) {
+        <a routerLink="/topics/new" routerLinkActive="active">New topic</a>
+        <button type="button" (click)="logout()">Logout</button>
+      } @else {
+        <a routerLink="/login" routerLinkActive="active">Login</a>
+      }
+    </nav>
   </header>
 
-  <section class="card" aria-labelledby="status-heading">
-    <h2 id="status-heading">Backend status</h2>
-    <p class="card__hint">
-      Calls <code>/api/actuator/health</code> on the configured backend.
-    </p>
-    <div class="card__row">
-      <button
-        type="button"
-        data-cy="check-status"
-        [disabled]="checking()"
-        (click)="checkStatus()"
-      >
-        {{ checking() ? 'Checking…' : 'Check backend status' }}
-      </button>
-      <span data-cy="status-label" [class]="statusClass()">{{ statusLabel() }}</span>
-    </div>
+  <section class="status-strip" aria-label="Backend status">
+    <span data-cy="status-label" [class]="statusClass()">{{ statusLabel() }}</span>
+    <button type="button" data-cy="check-status" [disabled]="checking()" (click)="checkStatus()">
+      {{ checking() ? 'Checking...' : 'Check backend status' }}
+    </button>
   </section>
 
-  <section class="card" aria-labelledby="posts-heading">
-    <h2 id="posts-heading">Posts demo</h2>
-    <p class="card__hint">
-      Read-only call to <code>/api/posts</code> (public endpoint, no auth).
-    </p>
-    <div class="card__row">
-      <button type="button" data-cy="load-posts" (click)="loadPosts()">
-        Load posts
-      </button>
-    </div>
-
-    @switch (posts().kind) {
-      @case ('loading') {
-        <p data-cy="posts-loading">Loading…</p>
-      }
-      @case ('error') {
-        <p class="status status--err" data-cy="posts-error">
-          {{ $any(posts()).message }}
-        </p>
-      }
-      @case ('ok') {
-        @let loaded = $any(posts()).posts;
-        @if (loaded.length === 0) {
-          <p data-cy="posts-empty">No posts yet.</p>
-        } @else {
-          <ul data-cy="posts-list">
-            @for (post of loaded; track post.id) {
-              <li>
-                <strong>{{ post.title }}</strong>
-                <span>— {{ post.createdAt }}</span>
-              </li>
-            }
-          </ul>
-        }
-      }
-    }
-  </section>
-
-  <footer class="page__footer">
-    <small>
-      Backend repo:
-      <a href="https://github.com/teodossidossev/forum-mse-2026-be" target="_blank" rel="noopener">
-        forum-mse-2026-be
-      </a>
-    </small>
-  </footer>
+  <router-outlet></router-outlet>
 </main>

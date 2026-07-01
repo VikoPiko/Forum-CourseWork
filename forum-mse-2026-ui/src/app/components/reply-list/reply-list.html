@@ -1,1 +1,26 @@
-<p>reply-list works!</p>
+@if (replies.length === 0) {
+  <div class="state-card">
+    <strong>No replies yet.</strong>
+    <span>Start the conversation once you are signed in.</span>
+  </div>
+} @else {
+  <ol class="reply-list">
+    @for (reply of replies; track reply.id) {
+      <li>
+        @if (editingReplyId === reply.id) {
+          <app-reply-editor
+            [text]="editReplyText"
+            [compact]="true"
+            title="Edit reply"
+            description=""
+            submitLabel="Save reply"
+            (replySubmit)="saveEdit.emit({ reply, text: $event })"
+            (replyCancel)="cancelEdit.emit()"
+          />
+        } @else {
+          <app-reply-card [reply]="reply" [canEdit]="canEdit(reply)" (edit)="edit.emit($event)" />
+        }
+      </li>
+    }
+  </ol>
+}

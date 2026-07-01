@@ -1,15 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { BackendStatus, BackendStatusService, Post } from './backend-status.service';
-
-type PostsState =
-  | { kind: 'idle' }
-  | { kind: 'loading' }
-  | { kind: 'ok'; posts: Post[] }
-  | { kind: 'error'; message: string };
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { BackendStatus, BackendStatusService } from './backend-status.service';
+import { AuthService } from './auth';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [RouterLink, RouterLinkActive, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,12 +13,13 @@ type PostsState =
 export class App {
   private readonly backend = inject(BackendStatusService);
 
+  protected readonly auth = inject(AuthService);
+
   protected readonly title = 'Forum MSE 2026';
   protected readonly description = 'CI/CD teaching frontend';
 
   protected readonly status = signal<BackendStatus | null>(null);
   protected readonly checking = signal(false);
-  protected readonly posts = signal<PostsState>({ kind: 'idle' });
 
   protected statusLabel(): string {
     const value = this.status();
@@ -54,11 +51,7 @@ export class App {
     });
   }
 
-  protected loadPosts(): void {
-    this.posts.set({ kind: 'loading' });
-    this.backend.listPosts().subscribe({
-      next: (posts) => this.posts.set({ kind: 'ok', posts }),
-      error: () => this.posts.set({ kind: 'error', message: 'Could not load posts.' }),
-    });
+  protected logout(): void {
+    this.auth.logout();
   }
 }

@@ -2,10 +2,12 @@ package com.mse.edu.forum.service;
 
 import com.mse.edu.forum.api.generated.model.CreateReplyRequest;
 import com.mse.edu.forum.api.generated.model.ReplyResponse;
+import com.mse.edu.forum.domain.PostEntity;
 import com.mse.edu.forum.domain.ReplyEntity;
 import com.mse.edu.forum.mapper.ReplyMapper;
 import com.mse.edu.forum.repo.PostRepository;
 import com.mse.edu.forum.repo.ReplyRepository;
+import com.mse.edu.forum.security.CurrentUserProvider;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
@@ -19,11 +21,17 @@ public class ReplyService {
 	private final ReplyRepository replyRepository;
 	private final PostRepository postRepository;
 	private final ReplyMapper replyMapper;
+	private final CurrentUserProvider currentUserProvider;
 
-	public ReplyService(ReplyRepository replyRepository, PostRepository postRepository, ReplyMapper replyMapper) {
+	public ReplyService(
+			ReplyRepository replyRepository,
+			PostRepository postRepository,
+			ReplyMapper replyMapper,
+			CurrentUserProvider currentUserProvider) {
 		this.replyRepository = replyRepository;
 		this.postRepository = postRepository;
 		this.replyMapper = replyMapper;
+		this.currentUserProvider = currentUserProvider;
 	}
 
 	@Transactional(readOnly = true)
@@ -43,10 +51,10 @@ public class ReplyService {
 
 	@Transactional
 	public ReplyResponse create(Long postId, CreateReplyRequest request) {
-		if (!postRepository.existsById(postId)) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found");
-		}
-		ReplyEntity entity = replyMapper.toEntity(request, postId);
+		PostEntity post = postRepository
+				.findById(postId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found"));
+		ReplyEntity entity = replyMapper.toEntity(request, post, currentUserProvider.getCurrentUserEntity());
 		ReplyEntity saved = replyRepository.save(entity);
 		return replyMapper.toResponse(saved);
 	}

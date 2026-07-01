@@ -1,1 +1,65 @@
-<p>topic-detail works!</p>
+<section class="detail-view">
+  <a class="back-link" routerLink="/topics">Back to topics</a>
+
+  @if (loading()) {
+    <div class="state-card">Loading topic...</div>
+  } @else if (error()) {
+    <div class="state-card state-card--error">{{ error() }}</div>
+  } @else if (topic(); as loadedTopic) {
+    <article class="topic-detail-card">
+      @if (editingTopic()) {
+        <app-topic-editor
+          [title]="loadedTopic.title"
+          [content]="loadedTopic.content"
+          submitLabel="Save topic"
+          (topicSubmit)="saveTopic($event)"
+          (topicCancel)="editingTopic.set(false)"
+        />
+      } @else {
+        <header class="topic-hero">
+          <div>
+            <p class="eyebrow">Topic</p>
+            <h2>{{ loadedTopic.title }}</h2>
+            <p class="topic-body">{{ loadedTopic.content }}</p>
+          </div>
+          @if (canEdit(loadedTopic.createdByUserId)) {
+            <button type="button" (click)="editingTopic.set(true)">Edit topic</button>
+          }
+        </header>
+      }
+      <app-topic-meta [topic]="loadedTopic" />
+    </article>
+
+    <section class="replies-panel" aria-labelledby="replies-heading">
+      <header class="replies-header">
+        <div>
+          <p class="eyebrow">Conversation</p>
+          <h3 id="replies-heading">Replies</h3>
+          <p>{{ replies().length }} total replies</p>
+        </div>
+      </header>
+
+      <app-reply-list
+        [replies]="replies()"
+        [currentUserId]="auth.currentUser()?.id ?? null"
+        [canEditAny]="canEditAny()"
+        [editingReplyId]="editingReplyId()"
+        [editReplyText]="editReplyText()"
+        (edit)="startReplyEdit($event)"
+        (saveEdit)="saveReplyEdit($event)"
+        (cancelEdit)="editingReplyId.set(null)"
+      />
+    </section>
+
+    @if (auth.isAuthenticated()) {
+      <section class="reply-composer-card">
+        <app-reply-editor [busy]="savingReply()" (replySubmit)="createReply($event)" />
+      </section>
+    } @else {
+      <div class="login-callout">
+        <span>Login to reply to this topic.</span>
+        <a routerLink="/login">Go to login</a>
+      </div>
+    }
+  }
+</section>

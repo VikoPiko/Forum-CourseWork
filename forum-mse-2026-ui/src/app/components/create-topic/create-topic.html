@@ -1,1 +1,30 @@
-<p>create-topic works!</p>
+<section class="composer-view">
+  <a class="back-link" routerLink="/topics">Back to topics</a>
+  <header class="forum-header">
+    <p class="eyebrow">Topic composer</p>
+    <h2>New topic</h2>
+    <p>Create a focused discussion with a unique title and enough context for replies.</p>
+  </header>
+
+  @if (!auth.isAuthenticated()) {
+    <div class="auth-required">
+      <h3>Login required</h3>
+      <p>You need a forum account before creating a topic.</p>
+      <a class="button" routerLink="/login">Go to login</a>
+    </div>
+  } @else {
+    <section class="composer-card">
+      <app-topic-editor
+        submitLabel="Create topic"
+        [busy]="saving()"
+        [showCancel]="false"
+        (topicSubmit)="create($event)"
+      />
+      <a class="cancel-link" routerLink="/topics">Cancel</a>
+    </section>
+  }
+
+  @if (error()) {
+    <p class="notice notice--err">{{ error() }}</p>
+  }
+</section>

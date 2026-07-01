@@ -50,7 +50,7 @@ public class PostEntity {
     @PreUpdate
     void onUpdate() { updatedAt = Instant.now();}
 
-    public void incdrementCount() {viewCount++;}
+    public void incrementViewCount() {viewCount++;}
 
 
     public void update(String title, String content) {

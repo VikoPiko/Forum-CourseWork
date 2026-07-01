@@ -1,1 +1,10 @@
-<p>topic-card works!</p>
+@if (topic; as item) {
+  <article class="topic-card">
+    <div class="topic-card__title-row">
+      <a [routerLink]="['/topics', item.id]">{{ item.title }}</a>
+      <span class="view-pill">{{ item.viewCount }} views</span>
+    </div>
+    <p class="topic-card__preview">{{ item.content }}</p>
+    <app-topic-meta [topic]="item" />
+  </article>
+}

@@ -1,0 +1,67 @@
+.composer-view {
+  display: grid;
+  gap: 18px;
+  max-width: 880px;
+}
+.back-link,
+.cancel-link {
+  width: max-content;
+  color: #0e6375;
+  font-weight: 800;
+  text-decoration: none;
+}
+.back-link:hover,
+.cancel-link:hover {
+  text-decoration: underline;
+}
+.eyebrow {
+  margin: 0 0 6px;
+  color: #0e6375;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.forum-header h2 {
+  margin: 0;
+  color: #111827;
+  font-size: clamp(1.5rem, 2.5vw, 2.05rem);
+  line-height: 1.05;
+}
+.forum-header p:not(.eyebrow) {
+  margin: 8px 0 0;
+  color: #647084;
+}
+.composer-card,
+.auth-required {
+  border: 1px solid rgba(118, 132, 153, 0.22);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 16px 42px rgba(31, 45, 61, 0.07);
+  padding: 20px;
+}
+.composer-card,
+.auth-required {
+  display: grid;
+  gap: 14px;
+}
+.auth-required h3 {
+  margin: 0;
+  color: #111827;
+}
+.auth-required p {
+  margin: 0;
+  color: #647084;
+}
+.auth-required .button {
+  width: max-content;
+}
+@media (max-width: 760px) {
+  .composer-card,
+  .auth-required {
+    padding: 16px;
+  }
+  .auth-required .button {
+    width: 100%;
+    text-align: center;
+  }
+}

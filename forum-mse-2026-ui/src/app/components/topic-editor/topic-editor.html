@@ -1,1 +1,29 @@
-<p>topic-editor works!</p>
+<form class="topic-editor" (ngSubmit)="submit()">
+  <label>
+    <span>Title</span>
+    <input
+      name="title"
+      [(ngModel)]="title"
+      required
+      maxlength="500"
+      placeholder="A clear, specific topic title"
+    />
+  </label>
+  <label>
+    <span>Content</span>
+    <textarea
+      name="content"
+      [(ngModel)]="content"
+      rows="10"
+      required
+      maxlength="10000"
+      placeholder="Share the context, question, or idea you want others to reply to."
+    ></textarea>
+  </label>
+  <div class="editor-actions">
+    <button type="submit" [disabled]="busy">{{ busy ? 'Working...' : submitLabel }}</button>
+    @if (showCancel) {
+      <button type="button" (click)="topicCancel.emit()">Cancel</button>
+    }
+  </div>
+</form>
